@@ -1,0 +1,355 @@
+"""Mock data for the demo Trading Platform subscription."""
+
+from app.models.schemas import (
+    AzureResource,
+    BudgetInfo,
+    BudgetStatus,
+    CMDBEntry,
+    Criticality,
+    ResourceType,
+)
+
+MOCK_SUBSCRIPTION_ID = "demo-trading-platform"
+
+MOCK_RESOURCES: list[AzureResource] = [
+    # --- Virtual Machines ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Compute/virtualMachines/web-app-prod-01",
+        type=ResourceType.VM,
+        name="web-app-prod-01",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_D4s_v3",
+        properties={
+            "os": "Linux",
+            "availability_zone": "1",
+            "os_disk_size_gb": 128,
+            "data_disks": 1,
+        },
+        estimated_monthly_cost=730.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Compute/virtualMachines/web-app-prod-02",
+        type=ResourceType.VM,
+        name="web-app-prod-02",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_D4s_v3",
+        properties={
+            "os": "Linux",
+            "availability_zone": "2",
+            "os_disk_size_gb": 128,
+            "data_disks": 1,
+        },
+        estimated_monthly_cost=730.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Compute/virtualMachines/api-server-01",
+        type=ResourceType.VM,
+        name="api-server-01",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_D8s_v5",
+        properties={
+            "os": "Linux",
+            "availability_zone": "1",
+            "os_disk_size_gb": 256,
+            "data_disks": 2,
+        },
+        estimated_monthly_cost=1420.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Compute/virtualMachines/api-server-02",
+        type=ResourceType.VM,
+        name="api-server-02",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_D8s_v5",
+        properties={
+            "os": "Linux",
+            "availability_zone": "2",
+            "os_disk_size_gb": 256,
+            "data_disks": 2,
+        },
+        estimated_monthly_cost=1420.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Compute/virtualMachines/batch-worker-01",
+        type=ResourceType.VM,
+        name="batch-worker-01",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_E4s_v5",
+        properties={
+            "os": "Linux",
+            "availability_zone": "1",
+            "os_disk_size_gb": 128,
+            "data_disks": 0,
+        },
+        estimated_monthly_cost=980.0,
+    ),
+    # --- PostgreSQL ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.DBforPostgreSQL/flexibleServers/trading-db-primary",
+        type=ResourceType.POSTGRES,
+        name="trading-db-primary",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="GP_Standard_D4s_v3",
+        properties={
+            "storage_gb": 512,
+            "ha_enabled": True,
+            "ha_mode": "ZoneRedundant",
+            "backup_retention_days": 14,
+            "version": "15",
+            "max_connections": 200,
+        },
+        estimated_monthly_cost=2850.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.DBforPostgreSQL/flexibleServers/analytics-db",
+        type=ResourceType.POSTGRES,
+        name="analytics-db",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="GP_Standard_D2s_v3",
+        properties={
+            "storage_gb": 256,
+            "ha_enabled": False,
+            "backup_retention_days": 7,
+            "version": "15",
+            "max_connections": 100,
+        },
+        estimated_monthly_cost=1240.0,
+    ),
+    # --- Redis ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Cache/redis/trading-cache",
+        type=ResourceType.REDIS,
+        name="trading-cache",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Premium_P2",
+        properties={
+            "capacity": 6,
+            "shard_count": 2,
+            "non_ssl_port_enabled": False,
+            "minimum_tls_version": "1.2",
+        },
+        estimated_monthly_cost=1850.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Cache/redis/session-cache",
+        type=ResourceType.REDIS,
+        name="session-cache",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_C2",
+        properties={
+            "capacity": 2,
+            "shard_count": 0,
+            "non_ssl_port_enabled": False,
+            "minimum_tls_version": "1.2",
+        },
+        estimated_monthly_cost=410.0,
+    ),
+    # --- App Service ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Web/sites/trading-portal",
+        type=ResourceType.APP_SERVICE,
+        name="trading-portal",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="P2v3",
+        properties={
+            "kind": "app,linux",
+            "slots": ["staging"],
+            "runtime": "DOTNET|8.0",
+            "always_on": True,
+        },
+        estimated_monthly_cost=620.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Web/sites/trading-api",
+        type=ResourceType.APP_SERVICE,
+        name="trading-api",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="P2v3",
+        properties={
+            "kind": "app,linux",
+            "slots": ["staging", "canary"],
+            "runtime": "PYTHON|3.11",
+            "always_on": True,
+        },
+        estimated_monthly_cost=620.0,
+    ),
+    # --- Key Vault ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.KeyVault/vaults/trading-kv-prod",
+        type=ResourceType.KEY_VAULT,
+        name="trading-kv-prod",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="premium",
+        properties={
+            "soft_delete_enabled": True,
+            "purge_protection_enabled": True,
+            "secrets_count": 42,
+            "keys_count": 8,
+        },
+        estimated_monthly_cost=45.0,
+    ),
+    # --- Storage ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Storage/storageAccounts/tradingdataprod",
+        type=ResourceType.STORAGE,
+        name="tradingdataprod",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_LRS",
+        properties={
+            "kind": "StorageV2",
+            "access_tier": "Hot",
+            "used_capacity_gb": 840,
+            "blob_containers": 12,
+        },
+        estimated_monthly_cost=185.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Storage/storageAccounts/tradingarchive",
+        type=ResourceType.STORAGE,
+        name="tradingarchive",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard_GRS",
+        properties={
+            "kind": "StorageV2",
+            "access_tier": "Cool",
+            "used_capacity_gb": 2400,
+            "blob_containers": 5,
+        },
+        estimated_monthly_cost=320.0,
+    ),
+    # --- NSG ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/networkSecurityGroups/nsg-web-tier",
+        type=ResourceType.NSG,
+        name="nsg-web-tier",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard",
+        properties={"rules_count": 12, "associated_subnets": ["snet-web"]},
+        estimated_monthly_cost=0.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/networkSecurityGroups/nsg-app-tier",
+        type=ResourceType.NSG,
+        name="nsg-app-tier",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard",
+        properties={"rules_count": 18, "associated_subnets": ["snet-app"]},
+        estimated_monthly_cost=0.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/networkSecurityGroups/nsg-data-tier",
+        type=ResourceType.NSG,
+        name="nsg-data-tier",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard",
+        properties={"rules_count": 8, "associated_subnets": ["snet-data"]},
+        estimated_monthly_cost=0.0,
+    ),
+    # --- VNet ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/virtualNetworks/vnet-trading-prod",
+        type=ResourceType.VNET,
+        name="vnet-trading-prod",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="Standard",
+        properties={
+            "address_space": ["10.1.0.0/16"],
+            "peerings": ["vnet-shared-services"],
+            "dns_servers": ["10.0.0.4", "10.0.0.5"],
+        },
+        estimated_monthly_cost=0.0,
+    ),
+    # --- Subnets ---
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/virtualNetworks/vnet-trading-prod/subnets/snet-web",
+        type=ResourceType.SUBNET,
+        name="snet-web",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="N/A",
+        properties={
+            "address_prefix": "10.1.1.0/24",
+            "nsg": "nsg-web-tier",
+            "delegations": [],
+        },
+        estimated_monthly_cost=0.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/virtualNetworks/vnet-trading-prod/subnets/snet-app",
+        type=ResourceType.SUBNET,
+        name="snet-app",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="N/A",
+        properties={
+            "address_prefix": "10.1.2.0/24",
+            "nsg": "nsg-app-tier",
+            "delegations": [],
+        },
+        estimated_monthly_cost=0.0,
+    ),
+    AzureResource(
+        resource_id="/subscriptions/demo/resourceGroups/rg-trading/providers/Microsoft.Network/virtualNetworks/vnet-trading-prod/subnets/snet-data",
+        type=ResourceType.SUBNET,
+        name="snet-data",
+        region="westeurope",
+        resource_group="rg-trading",
+        sku="N/A",
+        properties={
+            "address_prefix": "10.1.3.0/24",
+            "nsg": "nsg-data-tier",
+            "delegations": ["Microsoft.DBforPostgreSQL/flexibleServers"],
+        },
+        estimated_monthly_cost=0.0,
+    ),
+]
+
+
+MOCK_BUDGET = BudgetInfo(
+    subscription_id=MOCK_SUBSCRIPTION_ID,
+    budget_allocated=65000.0,
+    current_spend=53420.0,
+    forecast_end_of_month=62800.0,
+    budget_remaining=11580.0,
+    status=BudgetStatus.AT_RISK,
+)
+
+
+MOCK_CMDB = CMDBEntry(
+    subscription_id=MOCK_SUBSCRIPTION_ID,
+    application_name="Trading Platform",
+    owner="J. Morrison",
+    tier=2,
+    rto_hours=2.0,
+    rpo_hours=0.5,
+    primary_region="westeurope",
+    dr_region="northeurope",
+    criticality=Criticality.MEDIUM,
+)
+
+
+MOCK_SUBSCRIPTIONS = {
+    MOCK_SUBSCRIPTION_ID: {
+        "name": "Trading Platform (Demo)",
+        "description": "Multi-tier trading application with PostgreSQL, Redis, and App Services",
+        "resource_count": len(MOCK_RESOURCES),
+    },
+}

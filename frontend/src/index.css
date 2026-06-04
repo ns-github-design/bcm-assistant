@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* === Design system: Banking / FinOps / Enterprise === */
+
+@theme {
+  /* --- Surfaces --- */
+  --color-background: #f8f9fb;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f1f3f6;
+  --color-surface-inset: #ebeef3;
+
+  /* --- Borders --- */
+  --color-border: #e2e5eb;
+  --color-border-emphasis: #cdd1d9;
+
+  /* --- Text --- */
+  --color-foreground: #0f172a;
+  --color-muted-foreground: #64748b;
+  --color-muted: #94a3b8;
+
+  /* --- Brand --- */
+  --color-primary: #1e293b;
+  --color-primary-hover: #334155;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+
+  /* --- Semantic --- */
+  --color-success: #059669;
+  --color-success-muted: #d1fae5;
+  --color-warning: #d97706;
+  --color-warning-muted: #fef3c7;
+  --color-destructive: #dc2626;
+  --color-destructive-muted: #fee2e2;
+
+  /* --- Agent --- */
+  --color-agent-thinking: #6366f1;
+  --color-agent-tool: #3b82f6;
+  --color-agent-complete: #059669;
+  --color-agent-pending: #94a3b8;
+
+  /* --- Fonts --- */
+  --font-family-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-family-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* === Dark theme === */
+
+.dark {
+  --color-background: #0c0f14;
+  --color-surface: #12161e;
+  --color-surface-raised: #1a1f2b;
+  --color-surface-inset: #0f1218;
+
+  --color-border: #1e2430;
+  --color-border-emphasis: #2a3140;
+
+  --color-foreground: #e8ecf1;
+  --color-muted-foreground: #7c8698;
+  --color-muted: #4b5563;
+
+  --color-primary: #e8ecf1;
+  --color-primary-hover: #cdd1d9;
+  --color-accent: #60a5fa;
+  --color-accent-hover: #3b82f6;
+
+  --color-success: #34d399;
+  --color-success-muted: #064e3b;
+  --color-warning: #fbbf24;
+  --color-warning-muted: #78350f;
+  --color-destructive: #f87171;
+  --color-destructive-muted: #7f1d1d;
+
+  --color-agent-thinking: #818cf8;
+  --color-agent-tool: #60a5fa;
+  --color-agent-complete: #34d399;
+  --color-agent-pending: #4b5563;
+}
+
+/* === Base === */
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-family-sans);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Scrollbar (thin, minimal) === */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-emphasis);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* === Mono === */
+
+.font-mono {
+  font-family: var(--font-family-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* === V2 layout utilities === */
+
+.v2-panel {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.v2-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.dark .v2-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.v2-glow {
+  box-shadow: 0 0 0 1px var(--color-border), 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.dark .v2-glow {
+  box-shadow: 0 0 0 1px var(--color-border), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Stage accent line */
+.v2-stage-line {
+  position: relative;
+}
+.v2-stage-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--stage-accent, var(--color-accent));
+}
+
+/* Smooth transitions */
+.v2-transition {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
